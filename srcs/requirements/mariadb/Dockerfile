@@ -1,11 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y \
-    php \
-    php-mysql \
-    wordpress && \
-    apt-get clean
-
-    
+RUN apt-get update && apt-get upgrade &&\
+    apt-get install -y mariadb-server
 
 CMD ["mariadb", "-g", "daemon off;"]
