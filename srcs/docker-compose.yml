@@ -14,6 +14,7 @@ services:
     build: ./requirements/wordpress
     container_name: wordpress
     restart: always
+
     networks:
       - mynetwork
     volumes:
@@ -23,6 +24,8 @@ services:
     build: ./requirements/nginx
     container_name: nginx
     restart: always
+    ports:
+      - "443:443"
     networks:
       - mynetwork
 
