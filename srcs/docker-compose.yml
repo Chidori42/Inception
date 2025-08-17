@@ -17,6 +17,11 @@ services:
 
     networks:
       - mynetwork
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: youruser
+      WORDPRESS_DB_PASSWORD: yourpassword
+      WORDPRESS_DB_NAME: yourdb
     volumes:
       - db_data:/var/www/html
 
