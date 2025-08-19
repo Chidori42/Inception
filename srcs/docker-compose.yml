@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   mariadb:
+    image: mariadb:ael-fagr
     build: ./requirements/mariadb
     container_name: mariadb
     restart: always
@@ -11,6 +12,7 @@ services:
       - db_data:/var/lib/mysql
 
   wordpress:
+    image: wordpress:ael-fagr
     build: ./requirements/wordpress
     container_name: wordpress
     restart: always
@@ -26,6 +28,7 @@ services:
       - db_data:/var/www/html
 
   nginx:
+    image: nginx:ael-fagr
     build: ./requirements/nginx
     container_name: nginx
     restart: always
