@@ -4,7 +4,7 @@ build:
 	cd ./srcs && docker-compose build
 
 up:
-	cd ./srcs && docker-compose up
+	cd ./srcs && docker-compose up -d
 
 down:
 	cd ./srcs && docker-compose down

@@ -1,6 +1,9 @@
 FROM debian:bullseye
 
 RUN apt-get update && apt-get upgrade -y &&\
-    apt-get install -y mariadb-server
+    apt-get install -y mariadb-server 
 
+COPY  50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY  scrept.sh /
 
+RUN chmod +x scrept.sh && ./scrept.sh
