@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#Load varibles from enviroment
-
+service mariadb start
 #get config file
 CONFIG_FILE="/etc/mysql/mariadb.conf.d/50-server.cnf"
 
@@ -13,12 +12,14 @@ echo "Wait Mariad Stating... '$MYSQL_ROOT_PASSWORD'"
 sleep 10
 
 #Create DataBase User
-mysql -u root -p"$MYSQL_ROOT_PASSWORD" << EOF
-CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
-CREATE USER IF NOT EXISTS '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';
-GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'localhost';
-FLUSH PRIVILEGEs;
-EOF
+mysqladmin -u root password "${MYSQL_ROOT_PASSWORD}"
+mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
+mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+mysql -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}' ;"
+mysql -e "FLUSH PRIVILEGES;"
 
 echo "Database '$MYSQL_DATABASE' and user '$MYSQL_USER' created."
+
+service mariadb stop
+exec mysqld_safe
 
