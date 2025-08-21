@@ -1,5 +1,5 @@
 [mysqld]
-port=5050
+port=3603
 bind-address=0.0.0.0
 datadir=/var/lib/mysql
 sockert=/var/run/mysqld/mysqld.sock

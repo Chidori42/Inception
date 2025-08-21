@@ -1,22 +1,10 @@
 version: '3.8'
 
 services:
-  mariadb:
-    image: mariadb:ael-fagr
-    build: ./requirements/mariadb
-    container_name: mariadb
-    restart: always
-    networks:
-      - mynetwork
-    volumes:
-      - db_data:/var/lib/mysql
-
   wordpress:
     image: wordpress:ael-fagr
     build: ./requirements/wordpress
-    container_name: wordpress
     restart: always
-
     networks:
       - mynetwork
     environment:
@@ -24,13 +12,23 @@ services:
       WORDPRESS_DB_USER: youruser
       WORDPRESS_DB_PASSWORD: yourpassword
       WORDPRESS_DB_NAME: yourdb
+    depends_on:
+      - mariadb
     volumes:
       - db_data:/var/www/html
+  
+  mariadb:
+    image: mariadb:ael-fagr
+    build: ./requirements/mariadb
+    restart: always
+    networks:
+      - mynetwork
+    volumes:
+      - db_data:/var/lib/mysql
 
   nginx:
     image: nginx:ael-fagr
     build: ./requirements/nginx
-    container_name: nginx
     restart: always
     ports:
       - "443:443"
@@ -42,4 +40,4 @@ networks:
     driver: bridge
 
 volumes:
-  db_data: {}
+  db_data:
