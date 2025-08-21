@@ -4,7 +4,6 @@ services:
   mariadb:
     image: mariadb:ael-fagr
     build: ./requirements/mariadb
-    container_name: mariadb
     restart: always
     networks:
       - mynetwork
@@ -19,9 +18,7 @@ services:
   wordpress:
     image: wordpress:ael-fagr
     build: ./requirements/wordpress
-    container_name: wordpress
     restart: always
-
     networks:
       - mynetwork
     environment:
@@ -35,8 +32,9 @@ services:
   nginx:
     image: nginx:ael-fagr
     build: ./requirements/nginx
-    container_name: nginx
     restart: always
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     networks:
