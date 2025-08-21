@@ -8,6 +8,11 @@ services:
     restart: always
     networks:
       - mynetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
 
@@ -20,10 +25,10 @@ services:
     networks:
       - mynetwork
     environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: youruser
-      WORDPRESS_DB_PASSWORD: yourpassword
-      WORDPRESS_DB_NAME: yourdb
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
     volumes:
       - db_data:/var/www/html
 

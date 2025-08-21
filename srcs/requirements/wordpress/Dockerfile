@@ -9,5 +9,7 @@ RUN apt-get update && apt-get install -y \
     php-mysql \
     php-redis
 
-RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
+COPY wp-config.php /var/www/wordpress/
+RUN chown www-data:www-data /var/www/wordpress/wp-config.php
+
 CMD ["php-fpm7.4", "-F"]
