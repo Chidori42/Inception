@@ -1,7 +1,7 @@
 .PHONY: build up down logs clean
 
 build:
-	cd ./srcs && docker-compose build
+	cd ./srcs && docker-compose --env-file .env up -d --build
 
 up:
 	cd ./srcs && docker-compose up -d
@@ -14,3 +14,6 @@ logs:
 
 clean: down
 	docker volume prune -f
+
+fclean: clean
+	docker rm -f $(docker ps -aq)
