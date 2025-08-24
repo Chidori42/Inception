@@ -2,7 +2,7 @@ FROM debian:bullseye
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y nginx openssl && \
-    mkdir -p /etc/nginx/ssl /var/www/html && \
+    mkdir -p /etc/nginx/ssl && \
     openssl req -x509 -nodes \
     -days 3650 \
     -newkey rsa:2048 \

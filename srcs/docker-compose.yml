@@ -11,7 +11,7 @@ services:
     env_file:
       - .env
     volumes:
-      - db_data:/var/www/html
+      - /home/$USER/data/wordpress:/var/www/html
   
   mariadb:
     image: mariadb:ael-fagr
@@ -22,7 +22,7 @@ services:
     networks:
       - mynetwork
     volumes:
-      - db_data:/var/lib/mysql
+      - /home/$USER/data/mariadb:/var/lib/mysql
 
   nginx:
     image: nginx:ael-fagr
@@ -37,11 +37,11 @@ services:
     networks:
       - mynetwork
     volumes:
-      - db_data:/usr/share/nginx/html
+      - /home/$USER/data/wordpress:/usr/share/nginx/html
 
 networks:
   mynetwork:
     driver: bridge
 
 volumes:
-  db_data:
+  db_data: /home/$USER/data/wordpress
