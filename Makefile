@@ -16,4 +16,3 @@ clean: down
 	docker volume prune -f
 
 fclean: clean
-	docker rm -f $(docker ps -aq)

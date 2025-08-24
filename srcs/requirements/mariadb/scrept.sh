@@ -1,5 +1,5 @@
 #!/bin/bash
-mysql
+mysqld_safe --datadir=/var/lib/mysql &
 #Wait mariadb to start
 echo "Wait Mariad Stating... "
 sleep 10
@@ -12,4 +12,3 @@ mysql -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO \`${MYSQL_USER}\`@'%' I
 mysql -e "FLUSH PRIVILEGES;"
 
 echo "Database '$MYSQL_DATABASE' and user '$MYSQL_USER' created."
-exec mysqld_safe

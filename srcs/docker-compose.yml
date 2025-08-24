@@ -36,6 +36,8 @@ services:
       - "443:443"
     networks:
       - mynetwork
+    volumes:
+      - db_data:/usr/share/nginx/html
 
 networks:
   mynetwork:

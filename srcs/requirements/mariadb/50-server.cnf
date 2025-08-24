@@ -2,5 +2,5 @@
 port=3603
 bind-address=0.0.0.0
 datadir=/var/lib/mysql
-sockert=/var/run/mysqld/mysqld.sock
-user=ael-fagr
+socket=/var/run/mysqld/mysqld.sock
+user=mysql

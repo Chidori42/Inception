@@ -22,6 +22,3 @@ COPY wp-config.sh /
 
 RUN chmod +x /wp-config.sh
 RUN /wp-config.sh
-RUN which wp && wp --info
-
-# CMD ["php-fpm", "-F"]
