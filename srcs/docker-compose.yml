@@ -1,34 +1,35 @@
 version: '3.8'
 
 services:
-
   wordpress:
-    image: wordpress:ael-fagr
     build: ./requirements/wordpress
+    image: wordpress:ael-fagr
     restart: always
+    depends_on:
+      - mariadb
     networks:
       - mynetwork
     env_file:
       - .env
     volumes:
-      - /home/$USER/data/wordpress:/var/www/html
-  
+      - wordpress_data:/var/www/wordpress
+
   mariadb:
-    image: mariadb:ael-fagr
     build: ./requirements/mariadb
+    image: mariadb:ael-fagr
     restart: always
     env_file:
       - .env
     networks:
       - mynetwork
     volumes:
-      - /home/$USER/data/mariadb:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
 
   nginx:
-    image: nginx:ael-fagr
     build: ./requirements/nginx
+    image: nginx:ael-fagr
     restart: always
-    env_file :
+    env_file:
       - .env
     depends_on:
       - wordpress
@@ -37,11 +38,12 @@ services:
     networks:
       - mynetwork
     volumes:
-      - /home/$USER/data/wordpress:/usr/share/nginx/html
+      - wordpress_data:/var/www/wordpress
 
 networks:
   mynetwork:
     driver: bridge
 
 volumes:
-  db_data: /home/$USER/data/wordpress
+  wordpress_data:
+  mariadb_data:

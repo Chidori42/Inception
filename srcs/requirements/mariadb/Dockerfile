@@ -9,5 +9,5 @@ RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 COPY  50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY  scrept.sh /
 
-RUN chmod +x scrept.sh && ./scrept.sh
-CMD ["mysqld", "--console"]
+RUN chmod +x scrept.sh 
+CMD ["/scrept.sh"]
