@@ -10,4 +10,4 @@ COPY  50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY  scrept.sh /
 
 RUN chmod +x scrept.sh 
-CMD ["/scrept.sh"]
+ENTRYPOINT [ "./scrept.sh" ]

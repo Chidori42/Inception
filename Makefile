@@ -14,5 +14,7 @@ logs:
 
 clean: down
 	docker volume prune -f
+	docker image prune -f
+
 
 fclean: clean

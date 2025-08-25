@@ -16,9 +16,12 @@ RUN apt-get update && apt-get install -y \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp 
 
-WORKDIR /var/www/wordpress
+# Copy WordPress setup script
+COPY wp-config.sh /usr/local/bin/wp-config.sh
+RUN chmod +x /usr/local/bin/wp-config.sh
 
-COPY wp-config.sh /
+# Use entrypoint to configure WP before launching php-fpm
+ENTRYPOINT ["/usr/local/bin/wp-config.sh"]
 
-RUN chmod +x /wp-config.sh
-RUN /wp-config.sh
+# # Run php-fpm in foreground (Debian package installs php-fpm7.4)
+# CMD ["php-fpm7.4", "-F"]

@@ -15,6 +15,7 @@ services:
       - wordpress_data:/var/www/wordpress
 
   mariadb:
+    container_name: mariadb
     build: ./requirements/mariadb
     image: mariadb:ael-fagr
     restart: always
