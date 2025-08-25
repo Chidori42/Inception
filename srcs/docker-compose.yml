@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   wordpress:
+    container_name: wordpress
     build: ./requirements/wordpress
     image: wordpress:ael-fagr
     restart: always
