@@ -1,10 +1,12 @@
 #!/bin/bash
 
-
+echo "starting"
 cd /var/www/wordpress
-
-# Step 0: Ensure WordPress files
+sed -i 's/^listen\s*=.*/listen = 0.0.0.0:9000/' /etc/php/7.4/fpm/pool.d/www.conf
+# # Step 0: Ensure WordPress files
 wp core download --allow-root --force
+mkdir -p /run/php
+chown -R www-data:www-data /run/php
 
 # Step 1: Create wp-config.php
 wp config create \
@@ -31,4 +33,4 @@ fi
 echo "🎉 WordPress setup complete!"
 
 # Start PHP-FPM in foreground
-exec php7.4-fpm -F
+exec php-fpm7.4 -F
