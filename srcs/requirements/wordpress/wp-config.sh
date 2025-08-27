@@ -16,18 +16,28 @@ wp config create \
     --dbhost=mariadb \
     --allow-root
 
-# Step 2: Install WordPress
-wp core install \
-    --url=$WP_URL \
-    --title="$WP_TITLE" \
-    --admin_user=$WP_ADMIN_USER \
-    --admin_password=$WP_ADMIN_PASS \
-    --admin_email=$WP_ADMIN_EMAIL \
-    --allow-root
 
-# Step 3: Create additional user if variables exist
-if [ -n "$NEW_USER" ] && [ -n "$NEW_USER_EMAIL" ]; then
-    wp user create $NEW_USER $NEW_USER_EMAIL --role=${NEW_USER_ROLE:-subscriber} --user_pass=${NEW_USER_PASS:-password} --allow-root
+if [["$WP_ADMIN_USER" == admin* || "$NEW_USER" == admin*]]; then
+    echo "ERROR: Username cannot start with admin."
+    exit 1
+else
+    if [ -n "$NEW_USER" ] && [ -n "$NEW_USER_EMAIL" ] \
+       [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
+        # Step 2: Install Word Press
+        wp core install \
+            --url=$WP_URL \
+            --title="$WP_TITLE" \
+            --admin_user=$WP_ADMIN_USER \
+            --admin_password=$WP_ADMIN_PASS \
+            --admin_email=$WP_ADMIN_EMAIL \
+            --allow-root
+
+        # Step 3: Create additional user
+        wp user create $NEW_USER $NEW_USER_EMAIL \
+            --role=${NEW_USER_ROLE:-subscriber} \
+            --user_pass=${NEW_USER_PASS:-password} \
+            --allow-root
+    fi
 fi
 
 echo "🎉 WordPress setup complete!"
