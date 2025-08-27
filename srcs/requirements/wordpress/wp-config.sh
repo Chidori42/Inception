@@ -9,6 +9,9 @@ mkdir -p /run/php
 chown -R www-data:www-data /run/php
 
 # Step 1: Create wp-config.php
+
+#Clean up and rebuild
+rm -f wp-config.php
 wp config create \
     --dbname=$MYSQL_DATABASE \
     --dbuser=$MYSQL_USER \
@@ -17,13 +20,12 @@ wp config create \
     --allow-root
 
 
-if [["$WP_ADMIN_USER" == admin* || "$NEW_USER" == admin*]]; then
+if [[ "$WP_ADMIN_USER" == admin* || "$NEW_USER" == admin* ]]; then
     echo "ERROR: Username cannot start with admin."
-    exit 1
 else
-    if [ -n "$NEW_USER" ] && [ -n "$NEW_USER_EMAIL" ] \
+    if [ -n "$NEW_USER" ] && [ -n "$NEW_USER_EMAIL" ] && \
        [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
-        # Step 2: Install Word Press
+        # Step 2: Install WordPress
         wp core install \
             --url=$WP_URL \
             --title="$WP_TITLE" \
@@ -34,11 +36,12 @@ else
 
         # Step 3: Create additional user
         wp user create $NEW_USER $NEW_USER_EMAIL \
-            --role=${NEW_USER_ROLE:-subscriber} \
-            --user_pass=${NEW_USER_PASS:-password} \
+            --role=$NEW_USER_ROLE \
+            --user_pass=$NEW_USER_PASS \
             --allow-root
     fi
 fi
+
 
 echo "🎉 WordPress setup complete!"
 
