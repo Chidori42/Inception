@@ -1,7 +1,7 @@
 .PHONY: build up down logs clean
 
-build:
-	cd ./srcs && docker-compose --env-file .env build
+all:
+	cd ./srcs && docker-compose up --build -d
 
 up:
 	cd ./srcs && docker-compose up -d

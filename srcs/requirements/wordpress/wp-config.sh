@@ -8,6 +8,10 @@ wp core download --allow-root --force
 mkdir -p /run/php
 chown -R www-data:www-data /run/php
 
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 
+chmod +x wp-cli.phar 
+mv wp-cli.phar /usr/local/bin/wp 
+
 # Step 1: Create wp-config.php
 
 #Clean up and rebuild
@@ -16,31 +20,26 @@ wp config create \
     --dbname=$MYSQL_DATABASE \
     --dbuser=$MYSQL_USER \
     --dbpass=$MYSQL_PASSWORD \
-    --dbhost=mariadb \
+    --dbhost=mariadb:3306 \
     --allow-root
 
-
-if [[ "$WP_ADMIN_USER" == admin* || "$NEW_USER" == admin* ]]; then
-    echo "ERROR: Username cannot start with admin."
-else
-    if [ -n "$NEW_USER" ] && [ -n "$NEW_USER_EMAIL" ] && \
-       [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
-        # Step 2: Install WordPress
-        wp core install \
-            --url=$WP_URL \
-            --title="$WP_TITLE" \
-            --admin_user=$WP_ADMIN_USER \
-            --admin_password=$WP_ADMIN_PASS \
-            --admin_email=$WP_ADMIN_EMAIL \
-            --allow-root
-
-        # Step 3: Create additional user
-        wp user create $NEW_USER $NEW_USER_EMAIL \
-            --role=$NEW_USER_ROLE \
-            --user_pass=$NEW_USER_PASS \
-            --allow-root
-    fi
+if [ -n "$NEW_USER" ] && [ -n "$NEW_USER_EMAIL" ] && \
+   [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
+    # Step 2: Install WordPress
+    wp core install \
+        --url=$WP_URL \
+        --title="$WP_TITLE" \
+        --admin_user=$WP_ADMIN_USER \
+        --admin_password=$WP_ADMIN_PASS \
+        --admin_email=$WP_ADMIN_EMAIL \
+        --allow-root
+    # Step 3: Create additional user
+    wp user create $NEW_USER $NEW_USER_EMAIL \
+        --role=$NEW_USER_ROLE \
+        --user_pass=$NEW_USER_PASS \
+        --allow-root
 fi
+
 
 
 echo "🎉 WordPress setup complete!"
